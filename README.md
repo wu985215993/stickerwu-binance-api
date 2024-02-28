@@ -32,6 +32,10 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
+# 生产环境通过 pm2 启动项目
+
+$ pm2 start ecosystem.config.js --env production
+
 ```
 
 ## Stay in touch

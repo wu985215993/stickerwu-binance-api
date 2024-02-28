@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'StickerWu-Binance-API',
       script: 'dist/main.js', // 项目入口文件路径
-      watch: true, // 是否监听文件变化，生产环境建议设置为 false
+      watch: false, // 是否监听文件变化，生产环境建议设置为 false
       env: {
         NODE_ENV: 'development', // 指定环境变量为开发环境
       },

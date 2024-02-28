@@ -1,34 +1,6 @@
-import { Spot } from '@binance/connector-typescript';
+import { Spot, Interval } from '@binance/connector-typescript';
 import { Injectable } from '@nestjs/common';
 import { BinanceRestService } from 'src/binance/shared/binance.rest.service';
-export interface CurrentAveragePriceResponse {
-  mins: number;
-  price: string;
-  closeTime: number;
-}
-export interface TradingDayTickerOptions {
-  symbols?: string;
-  timeZone?: string;
-  type?: 'FULL' | 'MINI';
-}
-
-export interface TradingDayTickerResponse {
-  symbol: string;
-  priceChange: string;
-  priceChangePercent: string;
-  weightedAvgPrice: string;
-  openPrice: string;
-  highPrice: string;
-  lowPrice: string;
-  lastPrice: string;
-  volume: string;
-  quoteVolume: string;
-  openTime: number;
-  closeTime: number;
-  firstId: number;
-  lastId: number;
-  count: number;
-}
 
 @Injectable()
 export class MarketService {
@@ -45,14 +17,29 @@ export class MarketService {
   /** 获取代币的当前平均价格 */
   async getCurrentAveragePrice(
     symbol: string,
-  ): Promise<CurrentAveragePriceResponse> {
+  ): Promise<MARKET_API.CurrentAveragePriceResponse> {
     return await this.client.currentAveragePrice(symbol);
   }
   /** 获取交代币易日行情(Ticker) */
   async getTradingDay(
     symbol: string,
-    options?: TradingDayTickerOptions,
-  ): Promise<TradingDayTickerResponse | TradingDayTickerResponse[]> {
+    options?: MARKET_API.TradingDayTickerOptions,
+  ): Promise<
+    MARKET_API.TradingDayTickerResponse | MARKET_API.TradingDayTickerResponse[]
+  > {
     return await this.client.tradingDayTicker(symbol, options);
+  }
+  /** 获取交易币 K 线蜡烛图数据
+   *  TODO ts修复
+   */
+  async getKlineCandlestickData(
+    symbol: string,
+    /** K线间隔 */
+    interval: Interval,
+    options?: MARKET_API.KlineCandlestickDataOptions,
+  ): Promise<MARKET_API.KlineCandlestickDataResponse> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return await this.client.klineCandlestickData(symbol, interval, options);
   }
 }
